@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "record.h"
 
-void create(FILE *f)
+void initializeFile(FILE *f)
 {
   printf("Initializing the file...\n");
 
@@ -15,7 +15,7 @@ void create(FILE *f)
   }
 }
 
-void read(FILE *f)
+void readRecords(FILE *f)
 {
   Record r;
   fseek(f, 0, SEEK_SET);
@@ -36,7 +36,7 @@ void read(FILE *f)
   }
 }
 
-void insert(FILE *f)
+void insertRecord(FILE *f)
 {
   int pos;
   Record r;
@@ -56,7 +56,7 @@ void insert(FILE *f)
     printf("Error storing the record\n");
 }
 
-bool check(FILE *f)
+bool checkRecord(FILE *f)
 {
   Record r;
   int pos;
@@ -82,23 +82,26 @@ bool check(FILE *f)
 
 int main()
 {
-  FILE *f;
+  FILE *f, *d;
 
-  printf("Creating \"database.dat\" ...\n");
-  if ((f = fopen("database.dat", "r+")))
+  printf("Acessing \"database.dat\" and \"file.txt\"...\n");
+  if ((f = fopen("database.dat", "r+")) && (d = fopen("file.txt", "r+")))
   {
-    printf("File created successfully.\n");
+    printf("Files accessed successfully.\n");
   }
   else
   {
-    printf("Error creating \"database.dat\" file.\n");
+    printf("Error accessing files.\n");
     exit(-1);
   }
 
-  create(f);
-  read(f);
-  insert(f);
-  read(f);
-  check(f);
+  initializeFile(f); // cria arquivo com 11 registros
+  readRecords(f);    // printa os 11 registos
+  insertRecord(f);   // insere registro em uma determinada posicao
+  readRecords(f);    // printa denovo para ver ser gravou no arquivo
+  checkRecord(f);    // checa determinada posição do arquivo
+
   fclose(f);
+  fclose(d);
+  return 0;
 }
