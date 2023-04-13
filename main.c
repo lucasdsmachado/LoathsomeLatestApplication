@@ -15,11 +15,11 @@ void initializeFile(FILE *f, int m)
   }
 }
 
-void readRecords(FILE *f)
+void readRecords(FILE *f, int m)
 {
   Record r;
   fseek(f, 0, SEEK_SET);
-  for (int i = 0; i < 11; i++)
+  for (int i = 0; i < m; i++)
   {
     fread(&r, sizeof(Record), 1, f);
     printf("Record: %d\n", r.pos);
@@ -107,9 +107,9 @@ int main()
   int m = getNextIntFromFile(d);
 
   initializeFile(f, m); // cria arquivo com m registros
-  readRecords(f);    // printa os 11 registos
+  readRecords(f, m);    // printa os 11 registos
   insertRecord(f);   // insere registro em uma determinada posicao
-  readRecords(f);    // printa denovo para ver ser gravou no arquivo
+  readRecords(f, m);    // printa denovo para ver ser gravou no arquivo
   checkRecord(f);    // checa determinada posição do arquivo
 
   fclose(f);
