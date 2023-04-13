@@ -2,13 +2,13 @@
 #include <stdlib.h>
 #include "record.h"
 
-void initializeFile(FILE *f)
+void initializeFile(FILE *f, int m)
 {
   printf("Initializing the file...\n");
 
   Record r;
   r.occupied = false;
-  for (int i = 0; i < 11; i++)
+  for (int i = 0; i < m; i++)
   {
     r.pos = i;
     fwrite(&r, sizeof(Record), 1, f);
@@ -104,12 +104,13 @@ int main()
     exit(-1);
   }
 
-  initializeFile(f); // cria arquivo com 11 registros
+  int m = getNextIntFromFile(d);
+
+  initializeFile(f, m); // cria arquivo com m registros
   readRecords(f);    // printa os 11 registos
   insertRecord(f);   // insere registro em uma determinada posicao
   readRecords(f);    // printa denovo para ver ser gravou no arquivo
   checkRecord(f);    // checa determinada posição do arquivo
-  printf("%d\n", getNextIntFromFile(d)); // retorna primeira linha do arquivo
 
   fclose(f);
   fclose(d);
