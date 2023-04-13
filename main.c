@@ -80,6 +80,15 @@ bool checkRecord(FILE *f)
   }
 }
 
+int getNextIntFromFile(FILE *d)
+{
+  char line[100];
+  int m;
+  fgets(line, 100, d);
+  sscanf(line, "%d", &m);
+  return m;
+}
+
 int main()
 {
   FILE *f, *d;
@@ -100,6 +109,7 @@ int main()
   insertRecord(f);   // insere registro em uma determinada posicao
   readRecords(f);    // printa denovo para ver ser gravou no arquivo
   checkRecord(f);    // checa determinada posição do arquivo
+  printf("%d\n", getNextIntFromFile(d)); // retorna primeira linha do arquivo
 
   fclose(f);
   fclose(d);
