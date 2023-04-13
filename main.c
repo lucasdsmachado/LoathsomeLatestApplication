@@ -51,13 +51,9 @@ void insertRecord(FILE *f, int pos, int val)
     printf("Error storing the record\n");
 }
 
-bool checkRecord(FILE *f)
+bool checkRecord(FILE *f, int pos)
 {
   Record r;
-  int pos;
-
-  printf("position: ");
-  scanf("%d", &pos);
 
   fseek(f, pos * sizeof(Record), SEEK_SET);
   fread(&r, sizeof(Record), 1, f);
@@ -111,8 +107,11 @@ int main()
   scanf("%d", &val);
   insertRecord(f, pos, val); // insere registro de valor val na posicao pos
 
-  readRecords(f, m);    // printa denovo para ver ser gravou no arquivo
-  checkRecord(f);    // checa determinada posição do arquivo
+  readRecords(f, m);    // printa denovo para ver ser gravou no arquivo,
+
+  printf("position: ");
+  scanf("%d", &pos);
+  checkRecord(f, pos);    // checa determinada posição do arquivo
 
   fclose(f);
   fclose(d);
