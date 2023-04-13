@@ -36,17 +36,12 @@ void readRecords(FILE *f, int m)
   }
 }
 
-void insertRecord(FILE *f)
+void insertRecord(FILE *f, int pos, int val)
 {
-  int pos;
   Record r;
-
-  printf("position: ");
-  scanf("%d", &pos);
-  printf("value: ");
-  scanf("%d", &(r.value));
   r.occupied = true;
   r.pos = pos;
+  r.value = val;
 
   printf("Storing record in file ...\n");
   fseek(f, pos * sizeof(Record), SEEK_SET);
@@ -105,10 +100,17 @@ int main()
   }
 
   int m = getNextIntFromFile(d);
+  int pos, val;
 
   initializeFile(f, m); // cria arquivo com m registros
-  readRecords(f, m);    // printa os 11 registos
-  insertRecord(f);   // insere registro em uma determinada posicao
+  readRecords(f, m);    // printa os m registos
+
+  printf("position: ");
+  scanf("%d", &pos);
+  printf("value: ");
+  scanf("%d", &val);
+  insertRecord(f, pos, val); // insere registro de valor val na posicao pos
+
   readRecords(f, m);    // printa denovo para ver ser gravou no arquivo
   checkRecord(f);    // checa determinada posição do arquivo
 
