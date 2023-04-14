@@ -25,7 +25,6 @@ void readRecords(FILE *f, int m)
     printf("Record: %d\n", r.pos);
     if (r.occupied == true)
     {
-      printf("Occupied: true\n");
       printf("Value: %d\n", r.value);
     }
     else
