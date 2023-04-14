@@ -82,6 +82,21 @@ void linearProbing(FILE *f, FILE *d, int m)
   }
 }
 
+void doubleHashing(FILE *f, FILE *d, int m)
+{
+  while (!(feof(d)))
+  {
+    int n = getNextIntFromFile(d);
+    int h = n % m;
+    int j = n >= m ? n / m : 1;
+    while (checkRecord(f, h))
+    {
+      h = h + j > m - 1 ? h + j - m : h + j;
+    }
+    insertRecord(f, h, n);
+  }
+}
+
 int main()
 {
   FILE *f, *d;
@@ -100,7 +115,8 @@ int main()
   int m = getNextIntFromFile(d);
 
   initializeFile(f, m); // cria arquivo com m registros
-  linearProbing(f, d, m);
+  // linearProbing(f, d, m);
+  doubleHashing(f, d, m);
   readRecords(f, m); // printa os m registos
 
   fclose(f);
