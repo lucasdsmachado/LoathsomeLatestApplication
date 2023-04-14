@@ -54,21 +54,9 @@ void insertRecord(FILE *f, int pos, int val)
 bool checkRecord(FILE *f, int pos)
 {
   Record r;
-
   fseek(f, pos * sizeof(Record), SEEK_SET);
   fread(&r, sizeof(Record), 1, f);
-  if (r.occupied == true)
-  {
-    printf("Record: %d\n", r.pos);
-    printf("Value: %d\n", r.value);
-    printf("Ocuppied: true\n");
-
-    return true;
-  }
-  else
-  {
-    return false;
-  }
+  return r.occupied == true;
 }
 
 int getNextIntFromFile(FILE *d)
@@ -96,22 +84,10 @@ int main()
   }
 
   int m = getNextIntFromFile(d);
-  int pos, val;
 
   initializeFile(f, m); // cria arquivo com m registros
-  readRecords(f, m);    // printa os m registos
-
-  printf("position: ");
-  scanf("%d", &pos);
-  printf("value: ");
-  scanf("%d", &val);
-  insertRecord(f, pos, val); // insere registro de valor val na posicao pos
-
-  readRecords(f, m);    // printa denovo para ver ser gravou no arquivo,
-
-  printf("position: ");
-  scanf("%d", &pos);
-  checkRecord(f, pos);    // checa determinada posição do arquivo
+  // readRecords(f, m);    // printa os m registos
+  readRecords(f, m); // printa os m registos
 
   fclose(f);
   fclose(d);
