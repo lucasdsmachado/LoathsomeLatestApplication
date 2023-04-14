@@ -97,6 +97,16 @@ void doubleHashing(FILE *f, FILE *d, int m)
   }
 }
 
+int findEmptyPosition(FILE *f, int m)
+{
+  int pos = m - 1;
+  while (checkRecord(f, pos))
+  {
+    pos -= 1;
+  }
+  return pos;
+}
+
 int main()
 {
   FILE *f, *d;
