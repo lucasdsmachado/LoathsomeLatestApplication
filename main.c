@@ -43,12 +43,13 @@ void insertRecord(FILE *f, int pos, int val)
   r.pos = pos;
   r.value = val;
 
-  printf("Storing record in file ...\n");
+  // printf("Storing record in file ...\n");
   fseek(f, pos * sizeof(Record), SEEK_SET);
-  if (fwrite(&r, sizeof(Record), 1, f) == 1)
-    printf("Record stored successfully\n");
-  else
-    printf("Error storing the record\n");
+  if (fwrite(&r, sizeof(Record), 1, f) == 1) {
+    // printf("Record stored successfully\n");
+  } else {
+    // printf("Error storing the record\n");
+  }
 }
 
 bool checkRecord(FILE *f, int pos)
@@ -86,7 +87,6 @@ int main()
   int m = getNextIntFromFile(d);
 
   initializeFile(f, m); // cria arquivo com m registros
-  // readRecords(f, m);    // printa os m registos
   readRecords(f, m); // printa os m registos
 
   fclose(f);
