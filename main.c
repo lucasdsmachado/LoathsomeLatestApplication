@@ -4,7 +4,7 @@
 
 void initializeFile(FILE *f, int m)
 {
-  printf("Initializing the file...\n");
+  printf("Initializing \"database.dat\" file...\n");
 
   Record r;
   r.occupied = false;
