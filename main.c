@@ -119,6 +119,14 @@ void explicitChaining(FILE *f, FILE *d, int m) {
   }
 }
 
+Record getRecord(FILE *f, int pos)
+{
+  Record r;
+  fseek(f, pos * sizeof(Record), SEEK_SET);
+  fread(&r, sizeof(Record), 1, f);
+  return r;
+}
+
 int main()
 {
   FILE *f, *d;
