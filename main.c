@@ -68,6 +68,20 @@ int getNextIntFromFile(FILE *d)
   return m;
 }
 
+void linearProbing(FILE *f, FILE *d, int m)
+{
+  while (!(feof(d)))
+  {
+    int n = getNextIntFromFile(d);
+    int h = n % m;
+    while (checkRecord(f, h))
+    {
+      h = h + 1 > m - 1 ? h - m : h + 1;
+    }
+    insertRecord(f, h, n);
+  }
+}
+
 int main()
 {
   FILE *f, *d;
@@ -86,6 +100,7 @@ int main()
   int m = getNextIntFromFile(d);
 
   initializeFile(f, m); // cria arquivo com m registros
+  linearProbing(f, d, m);
   readRecords(f, m); // printa os m registos
 
   fclose(f);
