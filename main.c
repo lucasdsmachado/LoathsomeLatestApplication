@@ -127,6 +127,25 @@ Record getRecord(FILE *f, int pos)
   return r;
 }
 
+void explicitChainingNoJoining(FILE *f, FILE *d, int m)
+{
+  while (!(feof(d)))
+  {
+    int n = getNextIntFromFile(d);
+    int h = n % m;
+    if (checkRecord(f, h)) {
+      Record r = getRecord(f, h);
+      int pos = findEmptyPosition(f, m);
+      if (r.value % m == r.pos) {
+        h = pos;
+      } else {
+        insertRecord(f, pos, r.value);
+      }
+    }
+    insertRecord(f, h, n);
+  }
+}
+
 int main()
 {
   FILE *f, *d;
@@ -147,7 +166,8 @@ int main()
   initializeFile(f, m); // cria arquivo com m registros
   // linearProbing(f, d, m);
   // doubleHashing(f, d, m);
-  explicitChaining(f, d, m);
+  // explicitChaining(f, d, m);
+  explicitChainingNoJoining(f, d, m);
   readRecords(f, m); // printa os m registos
 
   fclose(f);
