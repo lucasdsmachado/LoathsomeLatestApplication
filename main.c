@@ -107,6 +107,18 @@ int findEmptyPosition(FILE *f, int m)
   return pos;
 }
 
+void explicitChaining(FILE *f, FILE *d, int m) {
+  while (!(feof(d)))
+  {
+    int n = getNextIntFromFile(d);
+    int h = n % m;
+    if (checkRecord(f, h)) {
+      h = findEmptyPosition(f, m);
+    }
+    insertRecord(f, h, n);
+  }
+}
+
 int main()
 {
   FILE *f, *d;
@@ -126,7 +138,8 @@ int main()
 
   initializeFile(f, m); // cria arquivo com m registros
   // linearProbing(f, d, m);
-  doubleHashing(f, d, m);
+  // doubleHashing(f, d, m);
+  explicitChaining(f, d, m);
   readRecords(f, m); // printa os m registos
 
   fclose(f);
