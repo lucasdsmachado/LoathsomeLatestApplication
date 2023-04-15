@@ -166,10 +166,10 @@ void explicitChainingNoJoining(FILE *f, FILE *d, int m)
       if (r.value % m == r.pos) {
         h = pos;
       } else {
-        insertRecord(f, pos, r.value);
+        insertRecord(f, pos, r.value, -1);
       }
     }
-    insertRecord(f, h, n);
+    insertRecord(f, h, n, -1);
   }
 }
 
