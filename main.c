@@ -20,19 +20,26 @@ void readRecords(FILE *f, int m)
 {
   Record r;
   fseek(f, 0, SEEK_SET);
+  printf("%-15s%-15s%-15s\n", "Addr", "Reg", "Ptr");
   for (int i = 0; i < m; i++)
   {
     fread(&r, sizeof(Record), 1, f);
-    printf("Record: %d\n", r.pos);
-    if (r.occupied == true)
+    if (r.occupied)
     {
-      printf("Value: %d\n", r.value);
+      printf("%-15d%-15d", r.pos, r.value);
+      if (r.ptr != -1)
+      {
+        printf("%-15d\n", r.ptr);
+      }
+      else
+      {
+        printf("%-15s\n", "null");
+      }
     }
     else
     {
-      printf("Ocuppied: false\n");
+      printf("%-15d%-15s%-15s\n", r.pos, "null", "null");
     }
-    printf("\n");
   }
 }
 
