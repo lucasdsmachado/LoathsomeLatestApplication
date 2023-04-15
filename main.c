@@ -90,7 +90,7 @@ void linearProbing(FILE *f, FILE *d, int m)
     {
       h = h + 1 > m - 1 ? h - m : h + 1;
     }
-    insertRecord(f, h, n);
+    insertRecord(f, h, n, -1);
   }
 }
 
@@ -105,7 +105,7 @@ void doubleHashing(FILE *f, FILE *d, int m)
     {
       h = h + j > m - 1 ? h + j - m : h + j;
     }
-    insertRecord(f, h, n);
+    insertRecord(f, h, n, -1);
   }
 }
 
