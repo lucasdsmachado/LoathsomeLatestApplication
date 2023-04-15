@@ -119,18 +119,6 @@ int findEmptyPosition(FILE *f, int m)
   return pos;
 }
 
-void explicitChaining(FILE *f, FILE *d, int m) {
-  while (!(feof(d)))
-  {
-    int n = getNextIntFromFile(d);
-    int h = n % m;
-    if (checkRecord(f, h)) {
-      h = findEmptyPosition(f, m);
-    }
-    insertRecord(f, h, n);
-  }
-}
-
 Record getRecord(FILE *f, int pos)
 {
   Record r;
@@ -147,6 +135,23 @@ Record getLastRecord(FILE *f, int pos)
     r = getRecord(f, r.ptr);
   }
   return r;
+}
+
+void explicitChaining(FILE *f, FILE *d, int m)
+{
+  while (!(feof(d)))
+  {
+    int n = getNextIntFromFile(d);
+    int h = n % m;
+    if (checkRecord(f, h))
+    {
+      Record r = getLastRecord(f, h);
+      int ptr = findEmptyPosition(f, m);
+      insertRecord(f, r.pos, r.value, ptr);
+      h = findEmptyPosition(f, m);
+    }
+    insertRecord(f, h, n, -1);
+  }
 }
 
 void explicitChainingNoJoining(FILE *f, FILE *d, int m)
