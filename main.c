@@ -139,6 +139,16 @@ Record getRecord(FILE *f, int pos)
   return r;
 }
 
+Record getLastRecord(FILE *f, int pos)
+{
+  Record r = getRecord(f, pos);
+  while (r.ptr != -1)
+  {
+    r = getRecord(f, r.ptr);
+  }
+  return r;
+}
+
 void explicitChainingNoJoining(FILE *f, FILE *d, int m)
 {
   while (!(feof(d)))
