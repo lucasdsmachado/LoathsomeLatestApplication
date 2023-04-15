@@ -43,18 +43,22 @@ void readRecords(FILE *f, int m)
   }
 }
 
-void insertRecord(FILE *f, int pos, int val)
+void insertRecord(FILE *f, int pos, int val, int ptr)
 {
   Record r;
   r.occupied = true;
   r.pos = pos;
   r.value = val;
+  r.ptr = ptr;
 
   // printf("Storing record in file ...\n");
   fseek(f, pos * sizeof(Record), SEEK_SET);
-  if (fwrite(&r, sizeof(Record), 1, f) == 1) {
+  if (fwrite(&r, sizeof(Record), 1, f) == 1)
+  {
     // printf("Record stored successfully\n");
-  } else {
+  }
+  else
+  {
     // printf("Error storing the record\n");
   }
 }
