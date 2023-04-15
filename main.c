@@ -171,13 +171,21 @@ void explicitChainingNoJoining(FILE *f, FILE *d, int m)
   {
     int n = getNextIntFromFile(d);
     int h = n % m;
-    if (checkRecord(f, h)) {
+    if (checkRecord(f, h))
+    {
       Record r = getRecord(f, h);
-      int pos = findEmptyPosition(f, m);
-      if (r.value % m == r.pos) {
-        h = pos;
-      } else {
-        insertRecord(f, pos, r.value, -1);
+      int ptr = findEmptyPosition(f, m);
+      if (r.value % m == r.pos)
+      {
+        r = getLastRecord(f, h);
+        insertRecord(f, r.pos, r.value, ptr);
+        h = ptr;
+      }
+      else
+      {
+        Record p = getRecordWithPtr(f, r.value % m, r.pos);
+        insertRecord(f, p.pos, p.value, ptr);
+        insertRecord(f, ptr, r.value, r.ptr);
       }
     }
     insertRecord(f, h, n, -1);
