@@ -8,6 +8,7 @@ void initializeFile(FILE *f, int m)
 
   Record r;
   r.occupied = false;
+  r.ptr = -1;
   for (int i = 0; i < m; i++)
   {
     r.pos = i;
