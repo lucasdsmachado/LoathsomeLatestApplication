@@ -137,6 +137,17 @@ Record getLastRecord(FILE *f, int pos)
   return r;
 }
 
+Record getRecordWithPtr(FILE *f, int pos, int ptr)
+{
+  Record r;
+  r = getRecord(f, pos);
+  while (r.ptr != ptr)
+  {
+    r = getRecord(f, r.ptr);
+  }
+  return r;
+}
+
 void explicitChaining(FILE *f, FILE *d, int m)
 {
   while (!(feof(d)))
