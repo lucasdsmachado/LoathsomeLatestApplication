@@ -238,6 +238,19 @@ int evaluateChainedHashingTotalAccesses(FILE *f, FILE *d, char type)
   return sum;
 }
 
+int computeOpenAddressingAccessCount(FILE *f, int m, int n)
+{
+  Record r;
+  int accesses = 0, h = n % m;
+  do
+  {
+    r = getRecord(f, h);
+    h = r.ptr;
+    accesses++;
+  } while (r.value != n);
+  return accesses;
+}
+
 int main()
 {
   FILE *f, *d;
