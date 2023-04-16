@@ -217,6 +217,27 @@ int computeChainedHashingAccessCount(FILE *f, int j, int m, int n)
   return accesses;
 }
 
+int evaluateChainedHashingTotalAccesses(FILE *f, FILE *d, char type)
+{
+  rewind(d);
+  int sum = 0, m = getNextIntFromFile(d);
+  while (!(feof(d)))
+  {
+    int n = getNextIntFromFile(d);
+    int j;
+    if (type == 'd')
+    {
+      j = n >= m ? n / m : 1;
+    }
+    else
+    {
+      j = 1;
+    }
+    sum += computeChainedHashingAccessCount(f, j, m, n);
+  }
+  return sum;
+}
+
 int main()
 {
   FILE *f, *d;
