@@ -192,6 +192,18 @@ void explicitChainingNoJoining(FILE *f, FILE *d, int m)
   }
 }
 
+int countIntegersInFile(FILE *d)
+{
+  int total = 0;
+  rewind(d);
+  while (!(feof(d)))
+  {
+    getNextIntFromFile(d);
+    total++;
+  }
+  return total - 1;
+}
+
 int main()
 {
   FILE *f, *d;
