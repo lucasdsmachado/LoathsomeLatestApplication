@@ -251,6 +251,18 @@ int computeOpenAddressingAccessCount(FILE *f, int m, int n)
   return accesses;
 }
 
+int evaluateOpenAddressingTotalAccesses(FILE *f, FILE *d)
+{
+  rewind(d);
+  int sum = 0, m = getNextIntFromFile(d);
+  while (!(feof(d)))
+  {
+    int n = getNextIntFromFile(d);
+    sum += computeOpenAddressingAccessCount(f, m, n);
+  }
+  return sum;
+}
+
 int main()
 {
   FILE *f, *d;
