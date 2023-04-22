@@ -204,7 +204,7 @@ int countIntegersInFile(FILE *d)
   return total - 1;
 }
 
-int computeChainedHashingAccessCount(FILE *f, int j, int m, int n)
+int computeOpenAddressingAccessCount(FILE *f, int j, int m, int n)
 {
   Record r;
   int accesses = 0, h = n % m;
@@ -217,7 +217,7 @@ int computeChainedHashingAccessCount(FILE *f, int j, int m, int n)
   return accesses;
 }
 
-int evaluateChainedHashingTotalAccesses(FILE *f, FILE *d, char type)
+int evaluateOpenAddressingTotalAccesses(FILE *f, FILE *d, char type)
 {
   rewind(d);
   int sum = 0, m = getNextIntFromFile(d);
@@ -233,12 +233,12 @@ int evaluateChainedHashingTotalAccesses(FILE *f, FILE *d, char type)
     {
       j = 1;
     }
-    sum += computeChainedHashingAccessCount(f, j, m, n);
+    sum += computeOpenAddressingAccessCount(f, j, m, n);
   }
   return sum;
 }
 
-int computeOpenAddressingAccessCount(FILE *f, int m, int n)
+int computeChainedHashingAccessCount(FILE *f, int m, int n)
 {
   Record r;
   int accesses = 0, h = n % m;
@@ -251,14 +251,14 @@ int computeOpenAddressingAccessCount(FILE *f, int m, int n)
   return accesses;
 }
 
-int evaluateOpenAddressingTotalAccesses(FILE *f, FILE *d)
+int evaluateChainedHashingTotalAccesses(FILE *f, FILE *d)
 {
   rewind(d);
   int sum = 0, m = getNextIntFromFile(d);
   while (!(feof(d)))
   {
     int n = getNextIntFromFile(d);
-    sum += computeOpenAddressingAccessCount(f, m, n);
+    sum += computeChainedHashingAccessCount(f, m, n);
   }
   return sum;
 }
