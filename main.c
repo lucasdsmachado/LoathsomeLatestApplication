@@ -195,12 +195,12 @@ void explicitChainingNoJoining(FILE *f, FILE *d, int m)
 int countIntegersInFile(FILE *d)
 {
   int total = 0;
-  rewind(d);
   while (!(feof(d)))
   {
     getNextIntFromFile(d);
     total++;
   }
+  rewind(d);
   return total - 1;
 }
 
@@ -278,6 +278,7 @@ int main()
     exit(-1);
   }
 
+  int n = countIntegersInFile(d);
   int m = getNextIntFromFile(d);
 
   initializeFile(f, m); // cria arquivo com m registros
