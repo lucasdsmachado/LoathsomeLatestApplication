@@ -213,7 +213,7 @@ int evaluateOpenAddressingTotalAccesses(FILE* f, FILE* d, char type) {
     int n = getNextIntFromFile(d);
     int j;
     if (type == 'd') {
-      j = n >= m ? n / m : 1;
+      j = (n >= m && (n / m) % m != 0) ? ((n / m) % m) : 1;
     } else {
       j = 1;
     }
