@@ -33,6 +33,26 @@ void readRecords(FILE* f, int m) {
   }
 }
 
+void writeRecords(FILE* f, FILE* hf, int m) {
+  Record r;
+  rewind(f);
+  fprintf(hf, "%-15s%-15s%-15s\n", "Addr", "Reg", "Ptr");
+  for (int i = 0; i < m; i++) {
+    fread(&r, sizeof(Record), 1, f);
+    if (r.occupied) {
+      fprintf(hf, "%-15d%-15d", r.pos, r.value);
+      if (r.ptr != -1) {
+        fprintf(hf, "%-15d\n", r.ptr);
+      } else {
+        fprintf(hf, "%-15s\n", "null");
+      }
+    } else {
+      fprintf(hf, "%-15d%-15s%-15s\n", r.pos, "null", "null");
+    }
+  }
+  fprintf(hf, "\n\n");
+}
+
 void insertRecord(FILE* f, int pos, int val, int ptr) {
   Record r;
   r.occupied = true;
