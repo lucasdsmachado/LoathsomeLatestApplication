@@ -110,9 +110,9 @@ void doubleHashing(FILE* f, FILE* d, int m) {
   while (!(feof(d))) {
     int n = getNextIntFromFile(d);
     int h = n % m;
-    int j = n >= m ? n / m : 1;
+    int j = (n >= m && (n / m) % m != 0) ? ((n / m) % m) : 1;
     while (checkRecord(f, h)) {
-      h = h + j > m - 1 ? h + j - m : h + j;
+      h = (h + j) % m;
     }
     insertRecord(f, h, n, -1);
   }
