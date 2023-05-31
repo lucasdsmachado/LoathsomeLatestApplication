@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
 #include "record.h"
+
+#define SIZE 997
 
 void populateFile(FILE* d, int size, int percent) {
   double numbers = size * percent / 100.0;
@@ -243,26 +247,77 @@ int evaluateChainedHashingTotalAccesses(FILE* f, FILE* d) {
 
 int main() {
   FILE *f, *d;
+  FILE *lp, *dh, *ec, *ecnj;
 
   printf("Acessing \"database.dat\" and \"file.txt\"...\n");
-  if ((f = fopen("database.dat", "r+")) && (d = fopen("file.txt", "r+"))) {
+  if ((f = fopen("database.dat", "w+")) && (d = fopen("file.txt", "r+")) &&
+      (lp = fopen("linearProbing.txt", "w")) &&
+      (dh = fopen("doubleHashing.txt", "w")) &&
+      (ec = fopen("explicitChaining.txt", "w")) &&
+      (ecnj = fopen("explicitChainingNoJoining.txt", "w"))) {
     printf("Files accessed successfully.\n");
   } else {
     printf("Error accessing files.\n");
     exit(-1);
   }
 
-  int n = countIntegersInFile(d);
-  int m = getNextIntFromFile(d);
+  srand(time(NULL));
 
-  initializeFile(f, m);  // cria arquivo com m registros
-  // linearProbing(f, d, m);
-  // doubleHashing(f, d, m);
-  // explicitChaining(f, d, m);
-  explicitChainingNoJoining(f, d, m);
-  readRecords(f, m);  // printa os m registos
+  for (int i = 2; i < 19; i++) {
+    printf("Current percentage:\t%d\n", i * 5);
+    fprintf(lp, "Current percentage:\t%d\n", i * 5);
+    fprintf(dh, "Current percentage:\t%d\n", i * 5);
+    fprintf(ec, "Current percentage:\t%d\n", i * 5);
+    fprintf(ecnj, "Current percentage:\t%d\n", i * 5);
+    for (int j = 1; j <= 10; j++) {
+      populateFile(d, SIZE, 5 * i);
+      int n = countIntegersInFile(d);
+      int m = getNextIntFromFile(d);
+      initializeFile(f, m);
+      linearProbing(f, d, m);
+      printf("LP:\t%.2f\n",
+             (double)evaluateOpenAddressingTotalAccesses(f, d, 'l') / n);
+      writeRecords(f, lp, m);
+      rewind(d);
+      rewind(f);
+
+      getNextIntFromFile(d);
+      initializeFile(f, SIZE);
+      doubleHashing(f, d, m);
+      printf("DB:\t%.2f\n",
+             (double)evaluateOpenAddressingTotalAccesses(f, d, 'd') / n);
+      writeRecords(f, dh, m);
+      rewind(d);
+      rewind(f);
+
+      getNextIntFromFile(d);
+      initializeFile(f, SIZE);
+      explicitChaining(f, d, m);
+      printf("EC:\t%.2f\n",
+             (double)evaluateChainedHashingTotalAccesses(f, d) / n);
+      writeRecords(f, ec, m);
+      rewind(d);
+      rewind(f);
+
+      getNextIntFromFile(d);
+      initializeFile(f, SIZE);
+      explicitChainingNoJoining(f, d, m);
+      printf("ECNJ:\t%.2f\n",
+             (double)evaluateChainedHashingTotalAccesses(f, d) / n);
+      writeRecords(f, ec, m);
+
+      fflush(d);
+      ftruncate(fileno(d), 0);
+      rewind(f);
+      rewind(d);
+    }
+  }
 
   fclose(f);
   fclose(d);
+  fclose(lp);
+  fclose(dh);
+  fclose(ec);
+  fclose(ecnj);
   return 0;
 }
