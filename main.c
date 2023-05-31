@@ -100,7 +100,7 @@ void linearProbing(FILE* f, FILE* d, int m) {
     int n = getNextIntFromFile(d);
     int h = n % m;
     while (checkRecord(f, h)) {
-      h = h + 1 > m - 1 ? h - m : h + 1;
+      h = (h + 1) % m;
     }
     insertRecord(f, h, n, -1);
   }
