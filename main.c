@@ -90,11 +90,9 @@ bool checkRecord(FILE* f, int pos) {
 }
 
 int getNextIntFromFile(FILE* d) {
-  char line[100];
-  int m;
-  fgets(line, 100, d);
-  sscanf(line, "%d", &m);
-  return m;
+  int num;
+  fscanf(d, "%d", &num);
+  return num;
 }
 
 void linearProbing(FILE* f, FILE* d, int m) {
