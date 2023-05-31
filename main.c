@@ -2,6 +2,19 @@
 #include <stdlib.h>
 #include "record.h"
 
+void populateFile(FILE* d, int size, int percent) {
+  double numbers = size * percent / 100.0;
+  fprintf(d, "%d\n", size);
+  for (int i = 0; i < numbers; i++) {
+    int n = rand();
+    fprintf(d, "%d", n);
+    if (i < numbers - 1) {
+      fprintf(d, "\n");
+    }
+  }
+  rewind(d);
+}
+
 void initializeFile(FILE* f, int m) {
   printf("Initializing \"database.dat\" file...\n");
 
