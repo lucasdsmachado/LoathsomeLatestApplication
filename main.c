@@ -200,7 +200,7 @@ int computeOpenAddressingAccessCount(FILE* f, int j, int m, int n) {
   int accesses = 0, h = n % m;
   do {
     r = getRecord(f, h);
-    h = h + j > m - 1 ? h + j - m : h + j;
+    h = (h + j) % m;
     accesses++;
   } while (r.value != n);
   return accesses;
