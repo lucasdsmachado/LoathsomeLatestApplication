@@ -16,8 +16,6 @@ void populateFile(FILE* d, int size, int percent) {
 }
 
 void initializeFile(FILE* f, int m) {
-  printf("Initializing \"database.dat\" file...\n");
-
   Record r;
   r.occupied = false;
   r.ptr = -1;
